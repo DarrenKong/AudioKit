@@ -1,7 +1,7 @@
 //
 //  SMSegment.swift
 //
-//  Created by Si MA on 03/01/2016.
+//  Created by Si MA, revision history on Githbub.
 //  Copyright (c) 2016 Si Ma. All rights reserved.
 //
 
@@ -55,7 +55,7 @@ open class SMSegment: SMBasicSegment {
                 self.labelWidth = titleText.boundingRect(with: CGSize(width: self.frame.size.width,
                                                                       height: self.frame.size.height),
                                                          options:NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                         attributes: [NSFontAttributeName: self.label.font],
+                                                         attributes: [NSAttributedStringKey.font: self.label.font],
                                                          context: nil).size.width
             } else {
                 self.labelWidth = 0.0
@@ -86,7 +86,7 @@ open class SMSegment: SMBasicSegment {
                 self.labelWidth = titleText.boundingRect(with: CGSize(width: self.frame.size.width + 1.0,
                                                                       height: self.frame.size.height),
                                                          options:NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                         attributes: [NSFontAttributeName: self.label.font],
+                                                         attributes: [NSAttributedStringKey.font: self.label.font],
                                                          context: nil).size.width
             } else {
                 self.labelWidth = 0.0

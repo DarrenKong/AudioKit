@@ -2,28 +2,32 @@
 //  EffectsViewController.swift
 //  SongProcessor
 //
-//  Created by Elizabeth Simonian on 10/8/16.
-//  Copyright © 2016 AudioKit. All rights reserved.
+//  Created by Elizabeth Simonian, revision history on Githbub.
+//  Copyright © 2018 AudioKit. All rights reserved.
 //
 
 import AudioKit
+import AudioKitUI
 import UIKit
 
 class EffectsViewController: UIViewController {
 
-    @IBOutlet private weak var volumeSlider: AKPropertySlider!
+    @IBOutlet private var volumeSlider: AKSlider!
+
+    var docController: UIDocumentInteractionController?
 
     let songProcessor = SongProcessor.sharedInstance
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        volumeSlider.maximum = 10.0
+        AKStylist.sharedInstance.theme = .basic
 
-        if let volume = songProcessor.playerBooster?.gain {
-            volumeSlider.value = volume
-        }
+        volumeSlider.range = 0 ... 10.0
+
+        volumeSlider.value = songProcessor.playerBooster.gain
         volumeSlider.callback = updateVolume
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(share(barButton:)))
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,7 +36,16 @@ class EffectsViewController: UIViewController {
     }
 
     func updateVolume(value: Double) {
-        songProcessor.playerBooster?.gain = value
+        songProcessor.playerBooster.gain = value
+    }
+
+    @objc func share(barButton: UIBarButtonItem) {
+        renderAndShare { docController in
+            guard let canOpen = docController?.presentOpenInMenu(from: barButton, animated: true) else { return }
+            if !canOpen {
+                self.present(self.alertForShareFail(), animated: true, completion: nil)
+            }
+        }
     }
 
 }

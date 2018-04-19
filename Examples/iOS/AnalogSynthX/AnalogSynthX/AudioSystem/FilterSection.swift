@@ -3,12 +3,12 @@
 //  AnalogSynthX
 //
 //  Created by Aurelius Prochazka, revision history on Github.
-//  Copyright © 2016 AudioKit. All rights reserved.
+//  Copyright © 2018 AudioKit. All rights reserved.
 //
 
 import AudioKit
 
-class FilterSection: AKNode {
+class FilterSection: AKNode, AKInput {
     var parameters: [Double] = [1_000, 0.9, 1_000, 1, 0]
 
     var cutoffFrequency: Double = 1_000 {
@@ -48,6 +48,10 @@ class FilterSection: AKNode {
 
     var output: AKOperationEffect
 
+    var inputNode: AVAudioNode {
+        return output.avAudioNode
+    }
+
     init(_ input: AKNode) {
 
         output = AKOperationEffect(input) { input, parameters in
@@ -69,7 +73,6 @@ class FilterSection: AKNode {
 
         super.init()
         self.avAudioNode = output.avAudioNode
-        input.addConnectionPoint(self)
 
     }
 }

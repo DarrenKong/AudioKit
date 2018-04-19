@@ -1,6 +1,6 @@
 {
     "name": "AudioKit",
-    "version": "3.7.1",
+    "version": "4.2.3",
     "authors": {
         "Aurelius Prochazka": "audiokit@audiokit.io"
     },
@@ -11,8 +11,9 @@
     "homepage": "http://audiokit.io/",
     "social_media_url": "http://twitter.com/AudioKitMan",
     "documentation_url": "http://audiokit.io/docs/",
+    "static_framework": true,
     "source": {
-        "http": "https://github.com/audiokit/AudioKit/releases/download/v3.7.1/AudioKit.framework.zip"
+        "http": "https://files.audiokit.io/releases/4.2.3/AudioKit.framework.zip"
     },
     "summary": "Open-source audio synthesis, processing, & analysis platform.",
     "platforms": {
@@ -20,11 +21,17 @@
         "ios": "9.0",
         "tvos": "9.0"
     },
+    "swift_version": "4.1",
+    "cocoapods_version": ">= 1.4.0",
     "frameworks": [
 	"AVFoundation"
     ],
-    "pod_target_xcconfig": {
-	"ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES": "YES"
+    "libraries": [
+        "stdc++"
+    ],
+    "user_target_xcconfig": {
+	"ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES": "YES",
+        "LIBRARY_SEARCH_PATHS": "$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)"
     },
     "osx": {
         "source_files": "macOS/AudioKit.framework/Versions/A/Headers/*.h",
@@ -40,5 +47,52 @@
         "source_files": "tvOS/AudioKit.framework/Headers/*.h",
         "public_header_files": "tvOS/AudioKit.framework/Headers/*.h",
         "vendored_frameworks": "tvOS/AudioKit.framework"
-    }
+    },
+    "subspecs" : [
+      {
+        "name": "UI",
+        "osx": {
+            "source_files": [
+		"macOS/AudioKitUI.framework/Versions/A/Headers/*.h",
+		"macOS/AudioKit.framework/Versions/A/Headers/*.h"
+	    ],
+            "public_header_files": [
+		"macOS/AudioKitUI.framework/Versions/A/Headers/*.h",
+		"macOS/AudioKit.framework/Versions/A/Headers/*.h"
+	    ],
+            "vendored_frameworks": [
+		"macOS/AudioKitUI.framework",
+		"macOS/AudioKit.framework"
+	    ]
+        },
+        "ios": {
+            "source_files": [
+		"iOS/AudioKitUI.framework/Headers/*.h",
+		"iOS/AudioKit.framework/Headers/*.h"
+	    ],
+            "public_header_files": [
+		"iOS/AudioKitUI.framework/Headers/*.h",
+		"iOS/AudioKit.framework/Headers/*.h"
+	    ],
+            "vendored_frameworks": [
+		"iOS/AudioKitUI.framework",
+		"iOS/AudioKit.framework"
+	    ]
+        },
+        "tvos": {
+            "source_files": [
+		"tvOS/AudioKitUI.framework/Headers/*.h",
+		"tvOS/AudioKit.framework/Headers/*.h"
+	    ],
+            "public_header_files": [
+		"tvOS/AudioKitUI.framework/Headers/*.h",
+		"tvOS/AudioKit.framework/Headers/*.h"
+	    ],
+            "vendored_frameworks": [
+		"tvOS/AudioKitUI.framework",
+		"tvOS/AudioKit.framework"
+	    ]
+        }
+      }
+    ]
 }
